@@ -444,7 +444,7 @@ struct BULLET
 	DIRECTION direction;
 	bool state;
 };
-//0 为空 1为可消除墙  2为不可消除墙  3，4为老家 敌方十辆坦克 100~109 我方坦克赋值为200
+//0 为空 1为可消除墙  2为不可消除墙  3，4为基地 敌方十辆坦克 100~109 我方坦克赋值为200
 int map[26][26] = {
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 	{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -509,10 +509,10 @@ void outputPage1()
 			}
 			break;
 
-		case WM_LBUTTONDOWN:
+		case WM_LBUTTONDOWN://系统信息,鼠标点击
 			if ((m.x >= 375 && m.x <= 455) && (m.y >= 200 && m.y <= 240))
 			{
-				cleardevice();
+				cleardevice();//清屏
 				return;
 			}
 			break;
@@ -590,8 +590,8 @@ int tankMove(TANK* tank, DIRECTION direction, IMAGE* img, int n)
 }
 
 // *****************************   使敌方坦克朝着目标的方向前进 *********************
-//采用生成随机数,取其余数,再根据敌方坦克的位置进行移动
-//
+//采用生成随机数,取其余数,再根据目标xy位置进行移动
+//可以改进.使用搜索算法
 DIRECTION enemyMove(TANK* Etank, int x, int y)
 {
 	int r = rand() % 100;
@@ -933,7 +933,7 @@ void gameStart()
 	int times = 0;                            //记录当前程序的休眠次数
 	int enemyTotal = 0;
 	int enemyAlive = 10;
-	//PlaySound(TEXT("background.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
+	//PlaySound(TEXT("res/background.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 	//***********************  我方坦克 ********************
 	TANK myTankMove;                              //己方坦克
 	BULLET myBulletMove;                           //己方子弹
@@ -996,7 +996,7 @@ void gameStart()
 			putimage(enemyTank[enemyTotal].tank_x * 25, enemyTank[enemyTotal].tank_y * 25, &enemyTank_img[DOWN]);
 			enemyTotal++;
 		}
-		// 控制地方坦克改变方向 
+		// 控制坦克改变方向 
 		if (times % 200 == 0)
 		{
 			for (int i = 0; i < enemyTotal; i++)
